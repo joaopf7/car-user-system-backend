@@ -1,22 +1,42 @@
 package com.joao.carusersystem.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
 	
+	
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String firstName; 
 	private String lastName; 
 	private String email; 
 	private Date birthday;
+	@Column(unique = true)
 	private String login; 
 	private String password;  
-	private String phone; 
+	private String phone;
+	@OneToMany(mappedBy = "user")
 	private List<Car> cars;
 	private Date lastLogin;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate createdAt = LocalDate.now();
 	
 	public User() {
