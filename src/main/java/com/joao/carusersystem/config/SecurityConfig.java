@@ -19,9 +19,6 @@ import com.joao.carusersystem.security.JWTAuthenticationFilter;
 import com.joao.carusersystem.security.JWTAuthorizationFilter;
 import com.joao.carusersystem.security.JWTUtil;
 
-
-
-
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
