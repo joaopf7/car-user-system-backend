@@ -7,27 +7,34 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joao.carusersystem.models.User;
 
+import jakarta.validation.constraints.NotNull;
+
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
 	private Integer id;
 
+	@NotNull(message = "field firstname is required")
 	private String firstName;
+	@NotNull(message = "field lastname is required")
 	private String lastName;
+	@NotNull(message = "field email is required")
 	private String email;
+	@NotNull(message = "field birthday is required")
 	private Date birthday;
 
-	
+	@NotNull(message = "field login is required")
 	private String login;
-
+	@NotNull(message = "field password is required")
 	private String password;
+	@NotNull(message = "field phone is required")
 	private String phone;
 
 	private Date lastLogin;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate createdAt;
+	private LocalDate createdAt = LocalDate.now();
 	
 	public UserDTO() {
 		super();

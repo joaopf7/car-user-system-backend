@@ -12,6 +12,8 @@ import com.joao.carusersystem.exceptions.NotFoundException;
 import com.joao.carusersystem.models.User;
 import com.joao.carusersystem.repositories.UserRepository;
 
+import jakarta.validation.Valid;
+
 @Service
 public class UserService {
 
@@ -33,6 +35,22 @@ public class UserService {
 		User newUser = new User(userDTO);
 		return repository.save(newUser);
 	}
+	
+	public User update(Integer id, @Valid UserDTO userDTO) {
+		userDTO.setId(id);
+		User oldUser = findById(id);
+		validFields(userDTO);
+		oldUser = new User(userDTO);
+		return repository.save(oldUser);
+	}
+	
+	public void delete(Integer id) {
+		User user = findById(id);
+		if (user.getCars().size() > 0) {
+			throw new DataIntegrationViolationException("Usuário possui carros!");
+		} 
+		repository.deleteById(id);
+	}
 
 	private void validFields(UserDTO userDTO) {
 		Optional<User> user = repository.findByLogin(userDTO.getLogin());
@@ -45,5 +63,7 @@ public class UserService {
 			throw new DataIntegrationViolationException("E-mail já cadastrado no sistema");
 		}
 	}
+
+	
 
 }
