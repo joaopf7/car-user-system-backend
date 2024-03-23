@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joao.carusersystem.models.User;
-
-import jakarta.validation.constraints.NotNull;
 
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;

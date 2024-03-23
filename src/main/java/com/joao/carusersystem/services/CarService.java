@@ -3,18 +3,17 @@ package com.joao.carusersystem.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joao.carusersystem.dtos.CarDTO;
-import com.joao.carusersystem.dtos.UserDTO;
 import com.joao.carusersystem.exceptions.DataIntegrationViolationException;
 import com.joao.carusersystem.exceptions.NotFoundException;
 import com.joao.carusersystem.models.Car;
 import com.joao.carusersystem.models.User;
 import com.joao.carusersystem.repositories.CarRepository;
-
-import jakarta.validation.Valid;
 
 @Service
 public class CarService {

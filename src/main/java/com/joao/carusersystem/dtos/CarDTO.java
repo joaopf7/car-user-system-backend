@@ -2,9 +2,9 @@ package com.joao.carusersystem.dtos;
 
 import java.io.Serializable;
 
-import com.joao.carusersystem.models.Car;
+import javax.validation.constraints.NotNull;
 
-import jakarta.validation.constraints.NotNull;
+import com.joao.carusersystem.models.Car;
 
 public class CarDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
