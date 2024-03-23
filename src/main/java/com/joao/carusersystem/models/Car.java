@@ -23,6 +23,7 @@ public class Car implements Serializable {
 	private Integer id;
 	@Column(name = "car_year")
 	private Integer year; 
+	@Column(unique = true)
 	private String licensePlate; 
 	private String model;
 	private String color;
