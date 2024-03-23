@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.joao.carusersystem.exceptions.NotFoundException;
 import com.joao.carusersystem.models.User;
 import com.joao.carusersystem.repositories.UserRepository;
 
@@ -16,7 +17,7 @@ public class UserService {
 
 	public User findById(Integer id) {
 		Optional<User> user = repository.findById(id);
-		return user.orElse(null);
+		return user.orElseThrow(() -> new NotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
 }
