@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.joao.carusersystem.dtos.UserDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,7 @@ public class User implements Serializable {
 
 	private String firstName;
 	private String lastName;
+	@Column(unique = true)
 	private String email;
 	private Date birthday;
 
@@ -62,6 +64,18 @@ public class User implements Serializable {
 		this.login = login;
 		this.password = password;
 		this.phone = phone;
+	}
+	
+	public User(UserDTO userDTO) {
+		super();
+		this.id = userDTO.getId();
+		this.firstName = userDTO.getFirstName();
+		this.lastName = userDTO.getLastName();
+		this.email = userDTO.getEmail();
+		this.birthday = userDTO.getBirthday();
+		this.login = userDTO.getLogin();
+		this.password = userDTO.getPassword();
+		this.phone = userDTO.getPhone();
 	}
 
 	public Integer getId() {

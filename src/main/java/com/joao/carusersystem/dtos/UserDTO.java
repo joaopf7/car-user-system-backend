@@ -28,7 +28,11 @@ public class UserDTO implements Serializable {
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate createdAt;
-
+	
+	public UserDTO() {
+		super();
+	}
+	
 	public UserDTO(User user) {
 		super();
 		this.id = user.getId();
@@ -39,8 +43,6 @@ public class UserDTO implements Serializable {
 		this.login = user.getLogin();
 		this.password = user.getPassword();
 		this.phone = user.getPhone();
-		this.lastLogin = user.getLastLogin();
-		this.createdAt = user.getCreatedAt();
 	}
 
 	public Integer getId() {
