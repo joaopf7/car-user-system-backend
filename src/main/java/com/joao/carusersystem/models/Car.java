@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "cars")
 public class Car implements Serializable {
@@ -29,6 +31,7 @@ public class Car implements Serializable {
 	private String color;
 	@ManyToOne
 	@JoinColumn(name="users_id")
+	@JsonIgnore
 	private User user;
 	
 	public Car() {

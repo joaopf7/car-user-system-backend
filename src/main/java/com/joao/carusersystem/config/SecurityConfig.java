@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.joao.carusersystem.repositories.UserRepository;
 import com.joao.carusersystem.security.JWTAuthenticationFilter;
 import com.joao.carusersystem.security.JWTAuthorizationFilter;
 import com.joao.carusersystem.security.JWTUtil;
@@ -27,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private UserRepository repository;
 
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 
@@ -36,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.cors().and().csrf().disable();
 
-		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil, repository));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();

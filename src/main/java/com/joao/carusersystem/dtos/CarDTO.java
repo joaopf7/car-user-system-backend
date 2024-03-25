@@ -30,10 +30,10 @@ public class CarDTO implements Serializable {
 		this.id = car.getId();
 		this.year = car.getYear();
 		this.licensePlate = car.getLicensePlate();
-		this.model = car.getLicensePlate();
+		this.model = car.getModel();
 		this.color = car.getColor();
 		this.idUser = car.getUser().getId();
-		this.nameUser = car.getUser().getFirstName() + car.getUser().getLastName();
+		this.nameUser = car.getUser().getFirstName();
 	}
 	
 	public Integer getId() {

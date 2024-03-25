@@ -3,14 +3,16 @@ package com.joao.carusersystem.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.joao.carusersystem.models.Car;
 import com.joao.carusersystem.models.User;
 
-public class UserDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class UserCarDTO implements Serializable {
+private static final long serialVersionUID = 1L;
 
 	
 	private Integer id;
@@ -31,16 +33,19 @@ public class UserDTO implements Serializable {
 	@NotNull(message = "field phone is required")
 	private String phone;
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date lastLogin;
+	
+	private List<Car> cars;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate createdAt = LocalDate.now();
 	
-	public UserDTO() {
+	public UserCarDTO() {
 		super();
 	}
 	
-	public UserDTO(User user) {
+	public UserCarDTO(User user) {
 		super();
 		this.id = user.getId();
 		this.firstName = user.getFirstName();
@@ -50,6 +55,8 @@ public class UserDTO implements Serializable {
 		this.login = user.getLogin();
 		this.password = user.getPassword();
 		this.phone = user.getPhone();
+		this.cars = user.getCars();
+		this.lastLogin = user.getLastLogin();
 	}
 
 	public Integer getId() {
@@ -130,6 +137,14 @@ public class UserDTO implements Serializable {
 
 	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
 	}
 	
 }

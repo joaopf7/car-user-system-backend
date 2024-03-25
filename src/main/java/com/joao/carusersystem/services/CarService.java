@@ -63,7 +63,7 @@ public class CarService {
 	private void validFields(CarDTO carDTO) {
 		Optional<Car> car = repository.findByLicensePlate(carDTO.getLicensePlate());
 		if(car.isPresent() && car.get().getId() != carDTO.getId()) {
-			throw new DataIntegrationViolationException("Placa já cadastrada no sistema");
+			throw new DataIntegrationViolationException("License plate already exists");
 		}
 	}
 

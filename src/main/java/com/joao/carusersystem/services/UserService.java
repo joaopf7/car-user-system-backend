@@ -3,6 +3,7 @@ package com.joao.carusersystem.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,13 @@ import com.joao.carusersystem.exceptions.DataIntegrationViolationException;
 import com.joao.carusersystem.exceptions.NotFoundException;
 import com.joao.carusersystem.models.User;
 import com.joao.carusersystem.repositories.UserRepository;
+import com.joao.carusersystem.security.JWTUtil;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private JWTUtil jwtUtil;
 
 	@Autowired
 	private UserRepository repository;
@@ -55,7 +60,7 @@ public class UserService {
 	public void delete(Integer id) {
 		User user = findById(id);
 		if (user.getCars().size() > 0) {
-			throw new DataIntegrationViolationException("Usuário possui carros!");
+			throw new DataIntegrationViolationException("Usuário possui carros! Por isso não pode ser deletado");
 		} 
 		repository.deleteById(id);
 	}
@@ -63,13 +68,19 @@ public class UserService {
 	private void validFields(UserDTO userDTO) {
 		Optional<User> user = repository.findByLogin(userDTO.getLogin());
 		if(user.isPresent() && user.get().getId() != userDTO.getId()) {
-			throw new DataIntegrationViolationException("Login já cadastrado no sistema");
+			throw new DataIntegrationViolationException("Login already exists");
 		}
 		
 		user = repository.findByEmail(userDTO.getEmail());
 		if(user.isPresent() && user.get().getId() != userDTO.getId()) {
-			throw new DataIntegrationViolationException("E-mail já cadastrado no sistema");
+			throw new DataIntegrationViolationException("Email already exists");
 		}
+	}
+
+	public User infoMe(HttpServletRequest request) {
+		String login = jwtUtil.getUsername(request.getHeader("Authorization").substring(7));
+		Optional<User> user = repository.findByLogin(login);
+		return user.get();
 	}
 
 	

@@ -3,6 +3,7 @@ package com.joao.carusersystem.security;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,16 +18,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joao.carusersystem.dtos.CredentialsDTO;
+import com.joao.carusersystem.models.User;
+import com.joao.carusersystem.repositories.UserRepository;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	
+	private UserRepository repository;
 
 	private AuthenticationManager authenticationManager;
 	private JWTUtil jwtUtil;
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserRepository repository) {
 		super();
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
+		this.repository = repository;
 	}
 
 	@Override
@@ -55,6 +61,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		//res.setHeader("Authorization", "Bearer " + token);
 		res.setHeader("access-control-expose-headers", "Authorization");
 		res.setHeader("Authorization", "Bearer "+ token);
+		
+		
+		Optional<User> user = repository.findByLogin(username);
+		User usuario = user.get();
+		usuario.setLastLogin(new Date());
+		repository.save(usuario);
 	}
 
 	@Override
@@ -67,13 +79,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	}
 
 	private CharSequence json() {
-		long date = new Date().getTime();
 		return "{"
-				+ "\"timestamp\": " + date + ", " 
-				+ "\"status\": 401, "
-				+ "\"error\": \"Não autorizado\", "
-				+ "\"message\": \"Email ou senha inválidos\", "
-				+ "\"path\": \"/login\"}";
+				+ "\"errorcode\": 401, "
+				+ "\"message\": \"Invalid login or password\"}";
 	}
 
 }
